@@ -20,6 +20,8 @@ export const CreateRoomModal = ({ createModalOpened, closeCreateModal }: CreateR
 
     const { mutate: createRoom, isLoading: createLoading } = api.room.create.useMutation({
         onSuccess: (data) => {
+            reset();
+
             void ctx.room.getUserRooms.invalidate();
 
             closeCreateModal();
@@ -29,7 +31,7 @@ export const CreateRoomModal = ({ createModalOpened, closeCreateModal }: CreateR
         onError: (e) => handleErrors({ e, message: 'Failed to create room' })
     });
 
-    const { register, handleSubmit, formState: { errors, isLoading, isSubmitting } } = useForm<createRoomInput>({
+    const { register, handleSubmit, reset, formState: { errors, isLoading, isSubmitting } } = useForm<createRoomInput>({
         resolver: zodResolver(createRoomSchema),
     });
 
