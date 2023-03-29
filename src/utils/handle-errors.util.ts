@@ -12,7 +12,7 @@ export const formatErrors = (e: any) => {
       message: error.message,
     }));
   } else {
-    if (e.data.code === "UNAUTHORIZED") {
+    if (e.data && e.data.code && e.data.code === "UNAUTHORIZED") {
       return [{ message: "Unauthorized" }];
     }
   }
