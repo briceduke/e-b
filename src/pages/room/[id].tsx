@@ -1,20 +1,21 @@
-import type { GetStaticProps, NextPage } from 'next';
+import type { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
 import { AuthLayout } from '@/components/layout/layout';
-import { generateSSGHelper } from '@/server/utils/ssg.util';
 import { handleErrors } from '@/utils';
 import { api } from '@/utils/api';
 import { Button, Skeleton, Title } from '@mantine/core';
 
-export const RoomPage: NextPage<{ id: string }> = ({ id }) => {
+export const RoomPage: NextPage = () => {
     const { data, status } = useSession();
-    const { push } = useRouter();
+    const { push, query } = useRouter();
     const ctx = api.useContext();
 
-    const { data: roomData, isLoading } = api.room.get.useQuery({ id }, {
+    const id = query.id && query.id.toString()
+
+    const { data: roomData, isLoading } = api.room.get.useQuery({ id: id ?? '' }, {
         retry: 0,
         enabled: !!id && status === 'authenticated',
         onError: (e) => handleErrors({ e, message: 'Failed to get room', fn: () => push('/home') })
@@ -33,7 +34,7 @@ export const RoomPage: NextPage<{ id: string }> = ({ id }) => {
     });
 
     const handleDeleteRoom = () => {
-        void deleteRoom({ id });
+        if (!!id) void deleteRoom({ id });
     };
 
     return (
@@ -50,27 +51,5 @@ export const RoomPage: NextPage<{ id: string }> = ({ id }) => {
         </AuthLayout>
     )
 }
-export const getStaticProps: GetStaticProps = async (context) => {
-    const ssg = generateSSGHelper();
-
-    const id = context.params?.id;
-
-    if (typeof id !== "string") {
-        return { notFound: true };
-    }
-
-    await ssg.room.get.prefetch({ id }, {});
-
-    return {
-        props: {
-            trpcState: ssg.dehydrate(),
-            id,
-        },
-    };
-};
-
-export const getStaticPaths = () => {
-    return { paths: [], fallback: "blocking" };
-};
 
 export default RoomPage;
