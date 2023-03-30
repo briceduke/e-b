@@ -1,0 +1,10 @@
+{
+  "name": "EB",
+  "short_name": "EB",
+  "theme_color": "#fff",
+  "background_color": "#087F5B",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/"
+}
