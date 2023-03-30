@@ -28,7 +28,6 @@ export const TopNav = () => {
     });
 
     const userHasImage = data && data.user && data.user.image;
-    const activeRoomId = data && data.user && data.user.activeRoomId;
     const queryId = query.id?.toString();
 
     const handleSignOut = () => {
@@ -42,7 +41,7 @@ export const TopNav = () => {
 
             <div className='flex w-full h-full items-center justify-between gap-x-4'>
 
-                <Link href={!!activeRoomId ? `/room/${activeRoomId}` : '/'}>
+                <Link href={'/'}>
                     <Title order={1}>
                         EB
                     </Title>
