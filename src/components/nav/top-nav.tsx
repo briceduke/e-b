@@ -43,7 +43,7 @@ export const TopNav = () => {
 
                 <Link href={'/'}>
                     <Title order={1}>
-                        EB
+                        🐸
                     </Title>
                 </Link>
 
