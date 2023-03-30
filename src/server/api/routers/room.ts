@@ -107,6 +107,9 @@ export const roomRouter = createTRPCRouter({
           message: "We tried to get you",
         });
 
+      if (!room)
+        throw new TRPCError({ code: "NOT_FOUND", message: "Room not found" });
+
       const userRooms = room.users[0].rooms.filter(
         (e) => e.id !== user.activeRoomId
       );
@@ -122,8 +125,7 @@ export const roomRouter = createTRPCRouter({
         },
       });
 
-      if (!room)
-        throw new TRPCError({ code: "NOT_FOUND", message: "Room not found" });
+      ctx.session.user.activeRoomId = activeRoomId ?? undefined;
 
       return {
         success: true,
@@ -184,14 +186,18 @@ export const roomRouter = createTRPCRouter({
         (e) => e.id !== user.activeRoomId
       );
 
+      const activeRoomId = userRooms[0] ? userRooms[0].id ?? null : null;
+
       await ctx.prisma.user.update({
         where: {
           id: user.id,
         },
         data: {
-          activeRoomId: userRooms[0] ? userRooms[0].id ?? null : null,
+          activeRoomId,
         },
       });
+
+      ctx.session.user.activeRoomId = activeRoomId ?? undefined;
 
       return {
         success: true,

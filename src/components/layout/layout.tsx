@@ -16,7 +16,7 @@ export const AuthLayout = ({ children, title }: AuthLayoutProps) => {
     const pageTitle = `EB | ${title}`;
 
     return (
-        <AppShell header={<TopNav />} >
+        <AppShell header={<TopNav />} padding={0}>
             <Head>
                 <title>{pageTitle}</title>
             </Head>
