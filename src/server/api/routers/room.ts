@@ -1,10 +1,6 @@
-import {
-  createRoomSchema,
-  getRoomSchema,
-  updateRoomSchema,
-} from "@/common/schemas";
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { TRPCError } from "@trpc/server";
+import { createRoomSchema, getRoomSchema, updateRoomSchema } from '@/common/schemas';
+import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import { TRPCError } from '@trpc/server';
 
 export const roomRouter = createTRPCRouter({
   create: protectedProcedure
@@ -217,10 +213,16 @@ export const roomRouter = createTRPCRouter({
           },
         },
       },
-      // include: {
-      // users: true,
-      // owner: true,
-      // },
+      include: {
+      users: {
+        select: {
+          id: true,
+          image: true,
+          name: true
+        }
+      },
+      owner: true,
+      },
     });
 
     if (!room)
