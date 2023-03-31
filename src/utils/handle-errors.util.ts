@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { toast } from "react-hot-toast";
 
-import type { ZodError } from "zod";
-
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 export const formatErrors = (e: any) => {
-  const zodError = e.data?.zodError as ZodError;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const zodError = e.data?.zodError;
 
-  if (zodError) {
-    return zodError.errors.map((error) => ({
-      message: error.message,
-    }));
+  if (zodError && zodError.fieldErrors) {
+    return zodError.fieldErrors.token as string[];
   } else {
-    if (e.data && e.data.code && e.data.code === "UNAUTHORIZED") {
-      return [{ message: "Unauthorized" }];
+    if (e.data) {
+      if (e.data.code && e.data.code === "UNAUTHORIZED") {
+        return ["Unauthorized"];
+      }
+
+      return [e.message as string];
     }
   }
 };
@@ -28,7 +29,7 @@ export const handleErrors = ({ e, message, fn }: HandleErrorsProps) => {
   const errors = formatErrors(e);
 
   if (errors) {
-    errors.forEach((error) => toast.error(error.message));
+    errors.forEach((error) => toast.error(error));
 
     fn && void fn();
     return;
