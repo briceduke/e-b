@@ -1,7 +1,7 @@
 import { acceptInviteSchema, createInviteSchema } from "@/common/schemas";
 import { TRPCError } from "@trpc/server";
 
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const inviteRouter = createTRPCRouter({
   create: protectedProcedure
@@ -39,6 +39,46 @@ export const inviteRouter = createTRPCRouter({
           },
         },
       });
+
+      return invite;
+    }),
+
+  get: publicProcedure
+    .input(acceptInviteSchema)
+    .query(async ({ input, ctx }) => {
+      const { token } = input;
+
+      const invite = await ctx.prisma.invite.findUnique({
+        where: {
+          id: token,
+        },
+        select: {
+          expires: true,
+          createdBy: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
+          room: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      });
+
+      if (!invite)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Invite not found",
+        });
+
+      if (invite.expires <= new Date(Date.now()))
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Invite is expired!",
+        });
 
       return invite;
     }),
