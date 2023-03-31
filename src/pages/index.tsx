@@ -22,7 +22,7 @@ const Landing: NextPage = () => {
               component="span"
               inherit
               variant="gradient"
-              gradient={{ from: 'teal.9', to: 'cyan.3' }} >Emma and Brice&apos;s</Text> Website
+              gradient={{ from: 'teal.9', to: 'cyan.2' }} >Emma and Brice&apos;s</Text> Website
           </Title>
         </div>
 

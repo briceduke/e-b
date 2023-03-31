@@ -38,6 +38,7 @@ specifiers:
   prettier-plugin-tailwindcss: ^0.2.1
   prisma: ^4.9.0
   react: 18.2.0
+  react-canvas-confetti: ^1.4.0
   react-dom: 18.2.0
   react-hook-form: ^7.43.8
   react-hot-toast: ^2.4.0
@@ -71,6 +72,7 @@ dependencies:
   next: 13.2.4_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.20.1_ld2jel3hspngo3u5lti2kgl2sq
   react: 18.2.0
+  react-canvas-confetti: 1.4.0_react@18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.43.8_react@18.2.0
   react-hot-toast: 2.4.0_biqbaboplfbrettd7655fr4n2y
@@ -1065,6 +1067,10 @@ packages:
     resolution: {integrity: sha512-nVMqdDIF9YLOeC3g6RdAvdCPqkHFjpshSqZGThZ+fyjiWSUXj2ZKCduhJFnY77TjtgODojeaaghmzcnjxb+Onw==}
     dev: false
 
+  /@types/canvas-confetti/1.6.0:
+    resolution: {integrity: sha512-Yq6rIccwcco0TLD5SMUrIM7Fk7Fe/C0jmNRxJJCLtAF6gebDkPuUjK5EHedxecm69Pi/aA+It39Ux4OHmFhjRw==}
+    dev: false
+
   /@types/cookie/0.4.1:
     resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
     dev: false
@@ -1513,6 +1519,10 @@ packages:
 
   /caniuse-lite/1.0.30001469:
     resolution: {integrity: sha512-Rcp7221ScNqQPP3W+lVOYDyjdR6dC+neEQCttoNr5bAyz54AboB4iwpnWgyi8P4YUsPybVzT4LgWiBbI3drL4g==}
+
+  /canvas-confetti/1.6.0:
+    resolution: {integrity: sha512-ej+w/m8Jzpv9Z7W7uJZer14Ke8P2ogsjg4ZMGIuq4iqUOqY2Jq8BNW42iGmNfRwREaaEfFIczLuZZiEVSYNHAA==}
+    dev: false
 
   /chalk/2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -3486,6 +3496,16 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
     dev: true
+
+  /react-canvas-confetti/1.4.0_react@18.2.0:
+    resolution: {integrity: sha512-ByBdSsNGUxlcJuOqSgbZw1VWNNO3b7njTmnuM1Y36mvwdCkCRs8rLkRAjn6MQK96LgWcfDVhr6ZT5olm2w8Zwg==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      '@types/canvas-confetti': 1.6.0
+      canvas-confetti: 1.6.0
+      react: 18.2.0
+    dev: false
 
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}

@@ -6,6 +6,6 @@ export const createInviteSchema = z.object({
 export type createInviteInput = ReturnType<typeof createInviteSchema.parse>;
 
 export const acceptInviteSchema = z.object({
-  token: z.string().uuid(),
+  token: z.string().cuid(),
 });
 export type acceptInviteInput = ReturnType<typeof acceptInviteSchema.parse>;

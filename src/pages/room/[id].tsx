@@ -8,7 +8,8 @@ import { BiDotsVertical, BiExit, BiTrash, BiUserPlus } from 'react-icons/bi';
 
 import { AuthLayout } from '@/components/layout/layout';
 import { DeleteRoomModal } from '@/components/modals/delete-room.modal';
-import { deleteRoomModalAtom } from '@/store/modals.atom';
+import { InviteUserModal } from '@/components/modals/invite-user.modal';
+import { deleteRoomModalAtom, inviteUserModalAtom } from '@/store/modals.atom';
 import { handleErrors } from '@/utils';
 import { api } from '@/utils/api';
 import {
@@ -20,6 +21,7 @@ export const RoomPage: NextPage = () => {
     const { push, query } = useRouter();
 
     const [, setDeleteRoomModalOpen] = useAtom(deleteRoomModalAtom);
+    const [, setInviteUserModalOpen] = useAtom(inviteUserModalAtom);
 
     const id = query.id && query.id.toString()
 
@@ -36,6 +38,7 @@ export const RoomPage: NextPage = () => {
     return (
         <AuthLayout title={roomData?.name ?? 'Room'}>
             <DeleteRoomModal id={id} name={roomData?.name} />
+            <InviteUserModal id={id} name={roomData?.name} />
             <Center>
                 <Container w={1000}>
                     <Stack mt={10}>
@@ -78,7 +81,7 @@ export const RoomPage: NextPage = () => {
                                     </Menu.Target>
 
                                     <Menu.Dropdown>
-                                        <Menu.Item disabled icon={<BiUserPlus />}>
+                                        <Menu.Item icon={<BiUserPlus />} onClick={() => setInviteUserModalOpen(true)}>
                                             Invite Users
                                         </Menu.Item>
                                         {roomData?.ownerId === data?.user.id ?
