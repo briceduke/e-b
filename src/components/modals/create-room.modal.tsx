@@ -1,17 +1,26 @@
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { BiRocket } from 'react-icons/bi';
 
 import { createRoomSchema } from '@/common/schemas';
 import { handleErrors } from '@/utils';
 import { api } from '@/utils/api';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Button, LoadingOverlay, Modal, TextInput, Title } from '@mantine/core';
+import { Box, Button, LoadingOverlay, Modal, TextInput, ThemeIcon, Title } from '@mantine/core';
 
 import type { createRoomInput } from '@/common/schemas'
-
 interface CreateRoomModalProps {
     createModalOpened: boolean;
     closeCreateModal: () => void;
+}
+
+const ModalTitle = () => {
+    return <Box display={'flex'} className='items-center space-x-4'>
+        <ThemeIcon variant='light' color='green'>
+            <BiRocket />
+        </ThemeIcon>
+        <Title order={3}>Create a Room</Title>
+    </Box>
 }
 
 export const CreateRoomModal = ({ createModalOpened, closeCreateModal }: CreateRoomModalProps) => {
@@ -48,23 +57,25 @@ export const CreateRoomModal = ({ createModalOpened, closeCreateModal }: CreateR
     };
 
     return <div>
-        <Modal opened={createModalOpened} onClose={closeCreateModal} centered radius={'md'} >
+        <Modal
+            opened={createModalOpened}
+            onClose={closeCreateModal}
+            centered
+            radius={'md'}
+            title={<ModalTitle />}
+        >
             <LoadingOverlay visible={loading} overlayBlur={2} zIndex={1000} />
-            <div className='flex justify-center'>
-                {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-                <form onSubmit={handleSubmit(handleCreateRoom)}>
-                    <Box maw={300} pos='relative' className='flex flex-col space-y-4 items-center p-4'>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+            <form onSubmit={handleSubmit(handleCreateRoom)}>
+                <Box maw={300} pos='relative' className='space-y-4'>
 
-                        <Title>Create a Room</Title>
+                    <TextInput error={errors.name?.message ?? ''} {...register('name')} label="Room Name (optional)" placeholder="My cool room" className='w-full' />
 
-                        <TextInput error={errors.name?.message ?? ''} {...register('name')} label="Room Name (optional)" placeholder="My cool room" className='w-full' />
-
-                        <Button type='submit' disabled={loading}>
-                            Create Room
-                        </Button>
-                    </Box>
-                </form>
-            </div>
+                    <Button type='submit' disabled={loading}>
+                        Create Room
+                    </Button>
+                </Box>
+            </form>
         </Modal>
     </div>
 }

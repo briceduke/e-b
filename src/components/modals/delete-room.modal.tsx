@@ -6,7 +6,16 @@ import { BiTrash } from 'react-icons/bi';
 import { deleteRoomModalAtom } from '@/store/modals.atom';
 import { handleErrors } from '@/utils';
 import { api } from '@/utils/api';
-import { Button, Group, Loader, Modal, Text, Title } from '@mantine/core';
+import { Box, Button, Group, Loader, Modal, Text, ThemeIcon, Title } from '@mantine/core';
+
+const ModalTitle = () => {
+    return <Box display={'flex'} className='items-center space-x-4'>
+        <ThemeIcon variant='light' color='red'>
+            <BiTrash />
+        </ThemeIcon>
+        <Title order={3}>Delete Room</Title>
+    </Box>
+}
 
 export const DeleteRoomModal = ({ id, name }: { id?: string; name?: string; }) => {
     const ctx = api.useContext();
@@ -34,11 +43,14 @@ export const DeleteRoomModal = ({ id, name }: { id?: string; name?: string; }) =
         </div>
     </Modal>
 
-    return <Modal opened={deleteRoomModalOpen} onClose={() => setDeleteRoomModalOpen(false)} centered>
+    return <Modal
+        title={<ModalTitle />}
+        opened={deleteRoomModalOpen}
+        onClose={() => setDeleteRoomModalOpen(false)}
+        centered>
         <div className='space-y-4'>
             <div>
-                <Title color={'red'} order={3}>Delete Confirmation</Title>
-                <Text>Upon confirmation, <Text component="span" fw={'bold'} >{name}</Text> will be permanently deleted.</Text>
+                <Text>Upon confirmation, <Text component="span" color='red' fw={'bold'} >{name}</Text> will be permanently deleted.</Text>
             </div>
             <Group>
                 <Button onClick={() => setDeleteRoomModalOpen(false)} variant={'outline'}>Cancel</Button>
