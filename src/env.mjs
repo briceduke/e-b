@@ -21,10 +21,7 @@ const server = z.object({
   // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
-  SENTRY_DSN:
-    process.env.NODE_ENV === "production"
-      ? z.string().url()
-      : z.string().url().optional(),
+  SENTRY_DSN: z.string().url().optional(),
   NEXT_PUBLIC_SENTRY_DSN:
     process.env.NODE_ENV === "production"
       ? z.string().url()
