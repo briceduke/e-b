@@ -4,10 +4,6 @@ import { createTRPCContext } from "@/server/api/trpc";
 import { wrapApiHandlerWithSentry } from "@sentry/nextjs";
 import { createNextApiHandler } from "@trpc/server/adapters/next";
 
-export const config = {
-  runtime: "edge",
-};
-
 // export API handler
 const handler = createNextApiHandler({
   router: appRouter,
