@@ -9,7 +9,8 @@ import { BiDotsVertical, BiExit, BiTrash, BiUserPlus } from 'react-icons/bi';
 import { AuthLayout } from '@/components/layout/layout';
 import { DeleteRoomModal } from '@/components/modals/delete-room.modal';
 import { InviteUserModal } from '@/components/modals/invite-user.modal';
-import { deleteRoomModalAtom, inviteUserModalAtom } from '@/store/modals.atom';
+import { LeaveRoomModal } from '@/components/modals/leave-room.modal';
+import { deleteRoomModalAtom, inviteUserModalAtom, leaveRoomModalAtom } from '@/store/modals.atom';
 import { handleErrors } from '@/utils';
 import { api } from '@/utils/api';
 import {
@@ -22,6 +23,7 @@ export const RoomPage: NextPage = () => {
 
     const [, setDeleteRoomModalOpen] = useAtom(deleteRoomModalAtom);
     const [, setInviteUserModalOpen] = useAtom(inviteUserModalAtom);
+    const [, setLeaveRoomModalOpen] = useAtom(leaveRoomModalAtom);
 
     const id = query.id && query.id.toString()
 
@@ -35,10 +37,15 @@ export const RoomPage: NextPage = () => {
         setDeleteRoomModalOpen(true);
     };
 
+    const handleLeaveRoom = () => {
+        setLeaveRoomModalOpen(true);
+    }
+
     return (
         <AuthLayout title={roomData?.name ?? 'Room'}>
             <DeleteRoomModal id={id} name={roomData?.name} />
             <InviteUserModal id={id} name={roomData?.name} />
+            <LeaveRoomModal id={id} name={roomData?.name} />
             <Center>
                 <Container w={1000}>
                     <Stack mt={10}>
@@ -89,7 +96,7 @@ export const RoomPage: NextPage = () => {
                                                 Delete Room
                                             </Menu.Item>
                                             :
-                                            <Menu.Item disabled icon={<BiExit />} color={'red'}>
+                                            <Menu.Item onClick={handleLeaveRoom} icon={<BiExit />} color={'red'}>
                                                 Leave Room
                                             </Menu.Item>
                                         }
