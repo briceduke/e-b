@@ -1,6 +1,10 @@
-import { createRoomSchema, getRoomSchema, updateRoomSchema } from '@/common/schemas';
-import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
-import { TRPCError } from '@trpc/server';
+import {
+  createRoomSchema,
+  getRoomSchema,
+  updateRoomSchema,
+} from "@/common/schemas";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { TRPCError } from "@trpc/server";
 
 export const roomRouter = createTRPCRouter({
   create: protectedProcedure
@@ -155,30 +159,34 @@ export const roomRouter = createTRPCRouter({
             },
           },
         },
+      });
+
+      if (!room)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Room not found",
+        });
+
+      const currentUser = await ctx.prisma.user.findUnique({
+        where: {
+          id: user.id,
+        },
         select: {
-          id: true,
-          users: {
-            where: {
-              id: user.id,
-            },
-            include: {
-              rooms: {
-                select: {
-                  id: true,
-                },
-              },
+          rooms: {
+            select: {
+              id: true,
             },
           },
         },
       });
 
-      if (!room.users[0])
+      if (!currentUser)
         throw new TRPCError({
-          code: "CONFLICT",
-          message: "We tried to get you",
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Please report this to bricewduke@gmail.com!",
         });
 
-      const userRooms = room.users[0].rooms.filter(
+      const userRooms = currentUser.rooms.filter(
         (e) => e.id !== user.activeRoomId
       );
 
@@ -189,7 +197,7 @@ export const roomRouter = createTRPCRouter({
           id: user.id,
         },
         data: {
-          activeRoomId,
+          activeRoomId: activeRoomId,
         },
       });
 
@@ -214,14 +222,14 @@ export const roomRouter = createTRPCRouter({
         },
       },
       include: {
-      users: {
-        select: {
-          id: true,
-          image: true,
-          name: true
-        }
-      },
-      owner: true,
+        users: {
+          select: {
+            id: true,
+            image: true,
+            name: true,
+          },
+        },
+        owner: true,
       },
     });
 
