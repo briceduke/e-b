@@ -9,9 +9,6 @@ import { withSentryConfig } from "@sentry/nextjs";
 /** @type {import("next").NextConfig} */
 const config = {
   swcMinify: true,
-  experimental: {
-    runtime: "experimental-edge",
-  },
   reactStrictMode: true,
 
   /**
