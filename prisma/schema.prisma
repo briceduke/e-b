@@ -32,6 +32,7 @@ model Account {
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
+    @@index([userId])
 }
 
 model Session {
@@ -40,6 +41,8 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
 }
 
 model User {
@@ -54,9 +57,17 @@ model User {
     rooms         Room[] 
     ownedRooms    Room[]    @relation("RoomOwner")
 
-    invites      Invite[]
+    invites       Invite[]
+
+    hangoutLists  HangoutList[]
+
+    votes HangoutList[] @relation("Vote")
 
     activeRoomId  String?
+
+    premium       Boolean @default(false)
+
+    @@index([id])
 }
 
 model VerificationToken {
@@ -68,17 +79,22 @@ model VerificationToken {
 }
 
 model Room {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id           String   @id @default(cuid())
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
 
-    name      String
+    name         String
 
-    users     User[]
-    owner     User     @relation("RoomOwner", fields: [ownerId], references: [id], onDelete: Cascade)
-    ownerId   String
+    users        User[]
+    owner        User     @relation("RoomOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+    ownerId      String
 
-    invites   Invite[]
+    invites      Invite[]
+    hangoutLists  HangoutList[]
+
+    tier         Int @default(0)
+
+    @@index([id, ownerId])
 }
 
 model Invite {
@@ -93,4 +109,40 @@ model Invite {
     roomId    String
 
     expires    DateTime
+
+    @@index([id, roomId])
+}
+
+model HangoutList {
+    id          String   @id @default(cuid())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    items       HangoutItem[]
+    votingEnded Boolean  @default(false)
+    votesCount  Int @default(0)
+
+    voted       User[] @relation("Vote")
+
+    createdBy   User     @relation(fields: [createdById], references: [id])
+    createdById String
+
+    room        Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+    roomId      String
+
+    @@index([id, roomId, createdById])
+}
+
+model HangoutItem {
+    id            String      @id @default(cuid())
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
+
+    hangoutList   HangoutList @relation(fields: [hangoutListId], references: [id], onDelete: Cascade)
+    hangoutListId String
+
+    content       String
+    points        Int         @default(0)
+    
+    @@index([hangoutListId, id])
 }

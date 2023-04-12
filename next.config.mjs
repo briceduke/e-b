@@ -9,7 +9,7 @@ import { withSentryConfig } from "@sentry/nextjs";
 /** @type {import("next").NextConfig} */
 const config = {
   swcMinify: true,
-  reactStrictMode: true,
+  reactStrictMode: false,
 
   /**
    * If you have the "experimental: { appDir: true }" setting enabled, then you

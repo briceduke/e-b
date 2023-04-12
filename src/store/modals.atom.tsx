@@ -4,3 +4,4 @@ export const authModalOpenAtom = atom(false);
 export const deleteRoomModalAtom = atom(false);
 export const leaveRoomModalAtom = atom(false);
 export const inviteUserModalAtom = atom(false);
+export const createHangoutModalAtom = atom(false);
