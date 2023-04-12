@@ -1,5 +1,7 @@
+import { hangoutRouter } from "@/server/api/routers/hangout";
 import { inviteRouter } from "@/server/api/routers/invite";
 import { roomRouter } from "@/server/api/routers/room";
+import { voteRouter } from "@/server/api/routers/vote";
 import { createTRPCRouter } from "@/server/api/trpc";
 
 /**
@@ -10,6 +12,8 @@ import { createTRPCRouter } from "@/server/api/trpc";
 export const appRouter = createTRPCRouter({
   room: roomRouter,
   invite: inviteRouter,
+  hangout: hangoutRouter,
+  vote: voteRouter,
 });
 
 // export type definition of API

@@ -26,6 +26,8 @@ const server = z.object({
     process.env.NODE_ENV === "production"
       ? z.string().url()
       : z.string().url().optional(),
+  OPENAI_ORGANIZATION: z.string(),
+  OPENAI_API_KEY: z.string(),
 });
 
 /**
@@ -52,6 +54,8 @@ const processEnv = {
   SENTRY_DSN: process.env.SENTRY_DSN,
   NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+  OPENAI_ORGANIZATION: process.env.OPENAI_ORGANIZATION,
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY,
 };
 
 // Don't touch the part below

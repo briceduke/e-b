@@ -10,5 +10,6 @@ This is a website I'm working on to learn about serverless tech. I'll tell you m
 - [Tailwind CSS](https://tailwindcss.com)
 - [Mantine UI](https://mantine.dev/)
 - [tRPC](https://trpc.io)
+- [OpenAI](https://openai.com)
 
 Made with ☕ by [Brice Duke](https://briceduke.dev)
