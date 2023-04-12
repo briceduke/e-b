@@ -142,7 +142,7 @@ export const RoomPage: NextPage = () => {
                                     <Stack spacing={'xs'}>
                                         <Title order={2}>Hangout Ideas</Title>
                                         {votingHasEnded && <Text>The people have spoken! Here are the results.</Text>}
-                                        {userHasVoted && <Text>Your vote is in! Here is the current lineup.</Text>}
+                                        {userHasVoted && !votingHasEnded && <Text>Your vote is in! Here is the current lineup.</Text>}
                                         {!userHasVoted && !votingHasEnded && <Text>Rank the ideas! Top is your fav, bottom is your least fav.</Text>}
                                     </Stack>
 
